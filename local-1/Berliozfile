@@ -3,6 +3,11 @@ kind: service
 cluster: berliozgo
 name: example
 
+provides:
+    client:
+        port: 4000
+        protocol: http
+
 consumes:
     - service: app
       endpoint: client
