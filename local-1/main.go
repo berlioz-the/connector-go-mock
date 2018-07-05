@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"connector-go.git"
+	"github.com/aws/aws-sdk-go/service/dynamodb"
 )
 
 func main() {
@@ -25,14 +26,24 @@ func main() {
 }
 
 func sayhelloName(w http.ResponseWriter, r *http.Request) {
-	r.ParseForm() // parse arguments, you have to call this by yourself
-	// fmt.Println(r.Form) // print form information in server side
-	// fmt.Println("path", r.URL.Path)
-	// fmt.Println("scheme", r.URL.Scheme)
-	// fmt.Println(r.Form["url_long"])
-	// for k, v := range r.Form {
-	// 	fmt.Println("key:", k)
-	// 	fmt.Println("val:", strings.Join(v, ""))
-	// }
-	fmt.Fprintf(w, "Hello astaxie!") // send data to client side
+	fmt.Fprintf(w, "Hello World!\n")
+
+	fmt.Fprintf(w, "From APP: ")
+	_, body, err := berlioz.Request("service", "app", "client").Get(r.Context(), "/")
+	if err != nil {
+		fmt.Fprintf(w, "Error: ")
+		fmt.Fprintf(w, "%#v", err)
+	} else {
+		fmt.Fprintf(w, string(body[:]))
+	}
+	fmt.Fprintf(w, "\n")
+
+	params := &dynamodb.ScanInput{}
+	result, err := berlioz.Database("contacts").DynamoDB().Scan(r.Context(), params)
+	if err != nil {
+		fmt.Fprintf(w, "--- DynamoDB::Scan Error: %v\n", err)
+	} else {
+		fmt.Fprintf(w, "--- DynamoDB::Scan Result: %v\n", result)
+	}
+	fmt.Fprintf(w, "\n")
 }
