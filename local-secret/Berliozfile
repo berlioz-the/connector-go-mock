@@ -1,0 +1,14 @@
+---
+kind: service
+cluster: berliozgo
+name: example
+
+consumes:
+    - secret: personal
+      action: 
+        - encrypt
+        - decrypt
+
+resources:
+    memory:
+        min: 128

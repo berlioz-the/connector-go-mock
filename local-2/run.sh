@@ -13,7 +13,7 @@ fi
 
 rsync -r ../../connector-go.git vendor/
 
-berlioz local push-run --quick --cluster berliozgo --service example --pathoverride .,../support
+berlioz local push-run --quick --cluster berliozgo --service example --pathoverride .,../support/simple
 echo '==============================================================================='
 echo '==============================================================================='
 echo '==============================================================================='
