@@ -27,6 +27,15 @@ func main() {
 	}
 	fmt.Printf("\n")
 
+	berlioz.Service("app").MonitorAll(func(peers map[string]interface{}) {
+		fmt.Printf("***** UPDATED APP PEERS: %#v\n", peers)
+		fmt.Printf("***** UPDATED APP PEERS MANUAL GET: %#v\n", berlioz.Service("app").All())
+	})
+
+	berlioz.Service("app").MonitorFirst(func(peer interface{}) {
+		fmt.Printf("***** UPDATED APP FIRST PEER: %#v\n", peer)
+	})
+
 	// berlioz.Peers()
 	http.HandleFunc("/", berlioz.WrapFunc(sayhelloName)) // set router
 	err = http.ListenAndServe(":4000", nil)              // set listen port
