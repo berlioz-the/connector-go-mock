@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"net/http"
@@ -15,11 +16,20 @@ func main() {
 	// time.Sleep(1 * time.Second)
 
 	// berlioz.TestZipkin()
-
 	// time.Sleep(2 * time.Second)
+	_, body, err := berlioz.Service("app").Request().Get(context.Background(), "/")
+	if err != nil {
+		fmt.Printf("***** REQUEST Error: ")
+		fmt.Printf("%#v", err)
+	} else {
+		fmt.Printf("***** REQUEST RESULT: ")
+		fmt.Printf(string(body[:]))
+	}
+	fmt.Printf("\n")
 
+	// berlioz.Peers()
 	http.HandleFunc("/", berlioz.WrapFunc(sayhelloName)) // set router
-	err := http.ListenAndServe(":4000", nil)             // set listen port
+	err = http.ListenAndServe(":4000", nil)              // set listen port
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
 	}
@@ -29,7 +39,7 @@ func sayhelloName(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Hello World!\n")
 
 	fmt.Fprintf(w, "From APP: ")
-	_, body, err := berlioz.Request("service", "app", "client").Get(r.Context(), "/")
+	_, body, err := berlioz.Service("app").Request().Get(r.Context(), "/")
 	if err != nil {
 		fmt.Fprintf(w, "Error: ")
 		fmt.Fprintf(w, "%#v", err)

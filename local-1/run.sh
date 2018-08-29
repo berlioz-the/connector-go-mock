@@ -13,11 +13,12 @@ fi
 
 rsync -r ../../connector-go.git vendor/
 
-berlioz local push-run --quick --cluster berliozgo --service example --pathoverride .,../support/simple
+# berlioz local build-run --quick --pathoverride .,../support/simple
+berlioz local build-run --quick --cluster berliozgo --service example --pathoverride .,../support/simple
 echo '==============================================================================='
 echo '==============================================================================='
 echo '==============================================================================='
 read -p "Pausing to fetch logs..." -t 2
 echo ""
 
-docker $dockerPrefix ps -a | grep berliozgo-example | head -n 1 | awk '{print $1}' | xargs docker $dockerPrefix logs
+docker $dockerPrefix ps -a | grep berliozgo-main-example | head -n 1 | awk '{print $1}' | xargs docker $dockerPrefix logs

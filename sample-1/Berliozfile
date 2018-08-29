@@ -5,7 +5,6 @@ name: example
 
 consumes:
     - service: app
-      endpoint: client
     - database: contacts
 
 resources:

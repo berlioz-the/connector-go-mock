@@ -4,6 +4,8 @@ ADD . /go/src/app
 RUN dep ensure
 
 ADD vendor/connector-go.git /go/src/app/vendor/connector-go.git
+RUN ls -la /go/src/app/vendor/connector-go.git
+RUN ls -la /go/src/app/vendor/connector-go.git/vendor
 RUN cp -rf /go/src/app/vendor/connector-go.git/vendor/* /go/src/app/vendor/
 RUN rm -rf /go/src/app/vendor/connector-go.git/vendor/*
 

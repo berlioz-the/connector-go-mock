@@ -10,7 +10,13 @@
 $ ./prebuild.sh
 ```
 
-## Runnig
+## Run using local connector-go.git directory
 ```
-$ ./sample1/run.sh
+$ ./local-1/run.sh
+```
+in case of errors with vendors directory missing make sure that ./prebuild.sh command is called.
+
+## Run using github connector-go.git url
+```
+$ ./sample-1/run.sh
 ```

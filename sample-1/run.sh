@@ -3,7 +3,7 @@ MY_DIR="$(dirname $MY_PATH)"
 echo "My Dir: $MY_DIR"
 cd $MY_DIR
 
-berlioz local push-run --quick --cluster berliozgo --service example --pathoverride .,../support
+berlioz local build-run --quick --cluster berliozgo --service example --pathoverride .,../support/simple
 echo '==============================================================================='
 echo '==============================================================================='
 echo '==============================================================================='
