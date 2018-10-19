@@ -5,8 +5,6 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"os"
-	"time"
 
 	"connector-go.git"
 	"github.com/aws/aws-sdk-go/service/dynamodb"
@@ -28,6 +26,10 @@ func main() {
 		fmt.Printf(string(body[:]))
 	}
 	fmt.Printf("\n")
+
+	berlioz.MyEndpoint("default").Monitor(func(ep berlioz.EndpointModel) {
+		fmt.Printf("**** MONITOR DEFAULT EP: %#v. Present: %t\n", ep, ep.IsPresent())
+	})
 
 	berlioz.Service("app").MonitorAll(func(peers map[string]interface{}) {
 		fmt.Printf("***** UPDATED APP PEERS: %#v\n", peers)
@@ -66,4 +68,11 @@ func sayhelloName(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "--- DynamoDB::Scan Result: %v\n", result)
 	}
 	fmt.Fprintf(w, "\n")
+
+	fmt.Fprintf(w, "\n")
+	fmt.Fprintf(w, "\n")
+	fmt.Fprintf(w, "\n")
+
+	ep := berlioz.MyEndpoint("default").Get()
+	fmt.Fprintf(w, "GOSSIP EP: %v\n", ep)
 }
