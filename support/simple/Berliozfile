@@ -3,6 +3,6 @@ kind: cluster
 name: berliozgo
 
 provides:
-#    client:
-#        service: example
-#        public: true
+   client:
+       service: example
+       public: true

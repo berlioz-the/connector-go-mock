@@ -11,6 +11,11 @@ $ ./prebuild.sh
 ```
 
 ## Run using local connector-go.git directory
+First time run using:
+```
+$ ./local-1/run.sh
+```
+subsequent times, run usig"
 ```
 $ ./local-1/run.sh
 ```

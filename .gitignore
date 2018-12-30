@@ -13,3 +13,6 @@
 
 vendor
 logs_berlioz
+.history
+
+**/node_modules/

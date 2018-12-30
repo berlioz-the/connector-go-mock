@@ -75,4 +75,10 @@ func sayhelloName(w http.ResponseWriter, r *http.Request) {
 
 	ep := berlioz.MyEndpoint("default").Get()
 	fmt.Fprintf(w, "GOSSIP EP: %v\n", ep)
+
+	fmt.Fprintf(w, "\n")
+	fmt.Fprintf(w, "\n")
+	fmt.Fprintf(w, "\n")
+	fmt.Fprintf(w, "My Identity: %v\n", berlioz.Identity())
+
 }

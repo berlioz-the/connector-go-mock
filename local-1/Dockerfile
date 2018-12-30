@@ -1,7 +1,9 @@
 FROM berliozcloud/golang-1.10
 
-ADD . /go/src/app
-RUN dep ensure -v
+WORKDIR /go/src/app
+COPY Gopkg.toml Gopkg.lock /go/src/app/
+RUN dep ensure -v --vendor-only
+COPY . /go/src/app/
 
 ADD vendor/connector-go.git /go/src/app/vendor/connector-go.git
 RUN ls -la /go/src/app/vendor/connector-go.git

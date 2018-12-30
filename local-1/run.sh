@@ -13,10 +13,6 @@ fi
 
 rsync -r ../../connector-go.git vendor/
 
-# RUN THIS FIRST TIME:
-# berlioz local build-run --quick --pathoverride .,../support/simple
-
-
 berlioz local build-run --quick --cluster berliozgo --service example --pathoverride .,../support/simple
 # berlioz output-definitions --pathoverride .,../support/simple
 echo '==============================================================================='
