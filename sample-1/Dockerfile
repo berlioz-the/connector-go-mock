@@ -1,6 +1,8 @@
 FROM berliozcloud/golang-1.10
 
-ADD . /go/src/app
-RUN dep ensure
+WORKDIR /go/src/app
+COPY Gopkg.toml Gopkg.lock /go/src/app/
+RUN dep ensure -v --vendor-only
+COPY . /go/src/app/
 
 RUN go build -o /app/main .

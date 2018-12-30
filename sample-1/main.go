@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"log"
 	"time"
 
@@ -11,30 +12,17 @@ import (
 func main() {
 	log.Printf("---------- PEER MONITOR -----------------")
 
-	berlioz.Peers("service", "app", "client").Monitor(func(peers berlioz.PeerAccessor) {
+	berlioz.Service("app").Endpoint("client").MonitorAll(func(peers map[string]interface{}) {
 		log.Printf("---------- PEER MONITOR -----------------")
-		log.Printf("--- PEERS: %v\n", peers.All())
-		if val, ok := peers.Get("1"); ok {
-			log.Printf("--- INDEXED PEER: %v\n", val)
-		}
-		if val, ok := peers.Random(); ok {
-			log.Printf("--- RANDOM PEER: %v\n", val)
-		}
+		log.Printf("--- PEERS: %v\n", peers)
 	})
 
-	berlioz.Database("contacts").Monitor(func(database berlioz.NativeResourceAccessor) {
+	berlioz.Database("contacts").MonitorFirst(func(database interface{}) {
 		log.Printf("---------- DATABASE MONITOR -----------------")
-
-		params := &dynamodb.ScanInput{}
-		result, err := database.DynamoDB().Scan(params)
-		if err != nil {
-			log.Printf("--- DynamoDB::Scan Error: %v\n", err)
-		} else {
-			log.Printf("--- DynamoDB::Scan Result: %v\n", result)
-		}
+		log.Printf("--- DATABASE PEER: %v\n", database)
 	})
 
-	resp, body, err := berlioz.Request("service", "app", "client").Get("/")
+	resp, body, err := berlioz.Service("app").Endpoint("client").Request().Get(context.Background(), "/")
 	if err != nil {
 		log.Printf("--- Response Error: %s\n", err)
 	} else {
@@ -42,7 +30,15 @@ func main() {
 		log.Printf("--- Response Body: %s\n", body)
 	}
 
-	berlioz.TestZipkin()
+	log.Printf("My Identity: %v\n", berlioz.Identity())
+
+	params := &dynamodb.ScanInput{}
+	result, err := berlioz.Database("contacts").DynamoDB().Scan(context.Background(), params)
+	if err != nil {
+		log.Printf("--- DynamoDB::Scan Error: %v\n", err)
+	} else {
+		log.Printf("--- DynamoDB::Scan Result: %v\n", result)
+	}
 
 	time.Sleep(5 * time.Second)
 }
